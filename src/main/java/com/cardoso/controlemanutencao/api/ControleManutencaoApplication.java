@@ -1,4 +1,4 @@
-package com.cardoso.controlemanutencao.apo;
+package com.cardoso.controlemanutencao.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
