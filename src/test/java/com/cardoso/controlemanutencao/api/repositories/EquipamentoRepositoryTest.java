@@ -2,8 +2,6 @@ package com.cardoso.controlemanutencao.api.repositories;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Optional;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +27,7 @@ public class EquipamentoRepositoryTest {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-	private Long equipamentoId;
+//	private Long equipamentoId;
 	private String equipamentoMarca;
 	
 	Cliente cliente;
@@ -40,7 +38,7 @@ public class EquipamentoRepositoryTest {
 		
 		Equipamento equip = this.equipamentoRepository.save(obterDadosEquipamento(cliente));
 		
-		equipamentoId = equip.getId();
+//		equipamentoId = equip.getId();
 		equipamentoMarca = equip.getMarca();
 		
 		
@@ -59,7 +57,7 @@ public class EquipamentoRepositoryTest {
 		
 		assertNotNull(eq);
 	}
-	
+	/*
 	@Test
 	public void testBuscarEquipamentoPorId() {
 		
@@ -67,6 +65,7 @@ public class EquipamentoRepositoryTest {
 		
 		assertNotNull(eq);
 	}
+	*/
 	
 	@Test
 	public void testBuscarEquipamentoPorCliente() {

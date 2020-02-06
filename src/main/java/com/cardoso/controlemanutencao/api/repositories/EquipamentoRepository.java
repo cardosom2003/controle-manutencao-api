@@ -1,7 +1,5 @@
 package com.cardoso.controlemanutencao.api.repositories;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +12,7 @@ public interface EquipamentoRepository extends JpaRepository<Equipamento, Long> 
 	
 	Equipamento findByMarca(String marca);
 	
-	Optional<Equipamento> findById(Long id);
+//	Optional<Equipamento> findById(Long id);
 	
 	Equipamento findByCliente(Cliente cliente);
 
