@@ -18,7 +18,7 @@ public class CadastroClienteEquipamentoDto {
 	private String telefone;
 	
 	// Dados referente ao Equipamento
-	private TipoEnum tipo;
+	private String tipo;
 	private String marca;
 	private String descricaoDefeito;
 	
@@ -72,15 +72,16 @@ public class CadastroClienteEquipamentoDto {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	//@NotEmpty(message = "Preencher o tipo.")
-	public TipoEnum getTipo() {
+	
+	
+	public String getTipo() {
 		return tipo;
 	}
-	
-	public void setTipo(TipoEnum tipo) {
+
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
+
 	@NotEmpty(message = "Marca não pode ser vazio.")
 	@Length(min= 3, max = 20, message = "Marca deve conter entre 3 e 20 caracteres.")
 	public String getMarca() {
@@ -107,6 +108,7 @@ public class CadastroClienteEquipamentoDto {
 				+ email + ", telefone=" + telefone + ", tipo=" + tipo + ", marca=" + marca + ", descricaoDefeito="
 				+ descricaoDefeito + "]";
 	}
+
 	
 	
 }

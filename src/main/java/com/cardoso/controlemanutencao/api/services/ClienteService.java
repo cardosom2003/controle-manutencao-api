@@ -1,8 +1,10 @@
 package com.cardoso.controlemanutencao.api.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.cardoso.controlemanutencao.api.entities.Cliente;
+import com.cardoso.controlemanutencao.api.entities.Equipamento;
 
 public interface ClienteService {
 	
@@ -30,6 +32,22 @@ public interface ClienteService {
 	 * @return
 	 */
 	Optional<Cliente> buscarClientePorEmailOrTelefone(String email, String telefone);
+	
+	/**
+	 * Retorna um cliente passando o id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Optional<Cliente> buscarClientePorId(Long id);
+	
+	/**
+	 * Lista todos os Cliente
+	 * 
+	 * @return
+	 */
+	List<Cliente> listarCliente();
+	
 	/**
 	 * Cadastra um novo Cliente na base de dados
 	 * 
@@ -38,6 +56,13 @@ public interface ClienteService {
 	 */
 	
 	Cliente persistir(Cliente cliente);
+	
+	/**
+	 * Remove um cliente passando um id
+	 * 
+	 * @param id
+	 */
+	void remover(Long id);
 	
 	
 	

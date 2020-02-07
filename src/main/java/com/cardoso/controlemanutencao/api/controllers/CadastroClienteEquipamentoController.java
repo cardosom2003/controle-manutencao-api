@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class CadastroClienteEquipamentoController {
 		
 		if(result.hasErrors()) {
 			log.error("Erro ao validar dados de cadastro : {}", result.getAllErrors());
+			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
 		
@@ -62,7 +64,7 @@ public class CadastroClienteEquipamentoController {
 		equipamento.setCliente(cliente);
 		this.equipamentoService.persistir(equipamento);
 		
-		response.setData(this.converterCadastroClienteEquipamentoDto(cliente));
+		response.setData(this.converterCadastroClienteEquipamentoDto(cliente, equipamento));
 		return ResponseEntity.ok(response);
 	}
 	
@@ -104,20 +106,29 @@ public class CadastroClienteEquipamentoController {
 		
 		Equipamento equipamento = new Equipamento();
 		equipamento.setMarca(cadastroClienteEquipamentoDto.getMarca());
-		equipamento.setTipo(TipoEnum.AUDIO_VIDEO);
+		
+		
+		if (EnumUtils.isValidEnum(TipoEnum.class, cadastroClienteEquipamentoDto.getTipo())) {
+			equipamento.setTipo(TipoEnum.valueOf(cadastroClienteEquipamentoDto.getTipo()));
+		} else {
+			result.addError(new ObjectError("tipo", "Tipo inválido."));
+		}
+		
 		equipamento.setDescricaoDefeito(cadastroClienteEquipamentoDto.getDescricaoDefeito());
 		
 		return equipamento;
 	}
 	
-	private CadastroClienteEquipamentoDto converterCadastroClienteEquipamentoDto(Cliente cliente) {
+	private CadastroClienteEquipamentoDto converterCadastroClienteEquipamentoDto(Cliente cliente, Equipamento equipamento) {
 		CadastroClienteEquipamentoDto cadDto = new CadastroClienteEquipamentoDto();
 		cadDto.setId(cliente.getId());
 		cadDto.setNome(cliente.getNome());
 		cadDto.setEmail(cliente.getEmail());
 		cadDto.setTelefone(cliente.getTelefone());
 		cadDto.setEndereco(cliente.getEndereco());
-		
+		cadDto.setMarca(equipamento.getMarca());
+		cadDto.setTipo(equipamento.getTipo().name());
+		cadDto.setDescricaoDefeito(equipamento.getDescricaoDefeito());
 		return cadDto;
 	}
 }
