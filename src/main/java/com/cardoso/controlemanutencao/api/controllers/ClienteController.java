@@ -72,7 +72,7 @@ public class ClienteController {
 	}
 	
 	/**
-	 * 
+	 * Buscar cliente por id
 	 * 
 	 * @param id
 	 * @return

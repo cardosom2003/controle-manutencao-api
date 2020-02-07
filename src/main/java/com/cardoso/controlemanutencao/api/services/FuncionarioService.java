@@ -1,5 +1,6 @@
 package com.cardoso.controlemanutencao.api.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.cardoso.controlemanutencao.api.entities.Funcionario;
@@ -30,5 +31,19 @@ public interface FuncionarioService {
 	 * @return
 	 */
 	Funcionario persistir(Funcionario funcionario);
+	
+	/**
+	 * Remove  Funcionario
+	 * 
+	 * @param id
+	 */
+	void remove(Long id);
+	
+	/**
+	 * Lista funcionarios
+	 * 
+	 * @return
+	 */
+	List<Funcionario> listar();
 
 }

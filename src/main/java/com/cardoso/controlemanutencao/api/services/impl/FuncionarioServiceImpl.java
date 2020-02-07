@@ -1,5 +1,6 @@
 package com.cardoso.controlemanutencao.api.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -37,6 +38,20 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	public Funcionario persistir(Funcionario funcionario) {
 		log.info("Persistindo funcionario : {}", funcionario);
 		return this.funcionarioRepository.save(funcionario);
+	}
+
+	@Override
+	public void remove(Long id) {
+		log.info("Removendo funcionario id: {},", id);
+		this.funcionarioRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public List<Funcionario> listar() {
+		log.info("Listando funcionarios.");
+		this.funcionarioRepository.findAll();
+		return null;
 	}
 
 }
