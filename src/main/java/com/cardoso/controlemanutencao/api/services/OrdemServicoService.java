@@ -46,5 +46,12 @@ public interface OrdemServicoService {
 	 * @param id
 	 */
 	void remover(Long id);
+	
+	/**
+	 * Listar Ordem Servico
+	 * 
+	 * @return
+	 */
+	List<OrdemServico> listar();
 
 }

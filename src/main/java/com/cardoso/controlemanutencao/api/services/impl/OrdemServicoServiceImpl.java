@@ -51,5 +51,11 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
 		
 	}
 
+	@Override
+	public List<OrdemServico> listar() {
+		log.info("Listando ordem de serivo");
+		return this.ordemServicoRepository.findAll();
+	}
+
 
 }
