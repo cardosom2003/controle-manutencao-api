@@ -13,8 +13,6 @@ public interface EquipamentoRepository extends JpaRepository<Equipamento, Long> 
 	
 	Equipamento findByMarca(String marca);
 	
-//	Optional<Equipamento> findById(Long id);
-	
 	Equipamento findByCliente(Cliente cliente);
 
 }

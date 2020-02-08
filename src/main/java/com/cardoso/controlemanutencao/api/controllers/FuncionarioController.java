@@ -106,16 +106,23 @@ public class FuncionarioController {
 		response.setData(this.converterFuncionarioParaDto(funcionario.get()));
 		return ResponseEntity.ok(response);
 	}
-	/*
+	
 	@GetMapping
-	public ResponseEntity<List<FuncionarioDto>> listar(){
+	public ResponseEntity<Response<List<FuncionarioDto>>> listar(){
 		log.info("Listando funionarios");
+		Response<List<FuncionarioDto>> response = new Response<List<FuncionarioDto>>();
 		List<Funcionario> listFuncionario = this.funcionarioService.listar();
+		if(listFuncionario == null) {
+			log.info("Erro ao listar funcionarios");
+			response.getErros().add("Erro ao carregar a lista dde funcionarios, por favor contat o suporte");
+			return ResponseEntity.badRequest().body(response);
+		}
 		List<FuncionarioDto> listDto = listFuncionario.stream().map(obj -> new FuncionarioDto(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
+		response.setData(listDto);
+		return ResponseEntity.ok().body(response);
 	
 	}
-	*/
+	
 	
 	/**
 	 * Atualiza um Funcionario passando o id

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cardoso.controlemanutencao.api.entities.Cliente;
-import com.cardoso.controlemanutencao.api.entities.Equipamento;
 import com.cardoso.controlemanutencao.api.repositories.ClienteRepository;
 import com.cardoso.controlemanutencao.api.services.ClienteService;
 

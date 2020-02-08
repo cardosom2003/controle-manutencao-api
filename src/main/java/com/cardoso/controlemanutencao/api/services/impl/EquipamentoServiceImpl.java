@@ -1,5 +1,6 @@
 package com.cardoso.controlemanutencao.api.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -42,8 +43,20 @@ public class EquipamentoServiceImpl implements EquipamentoService {
 
 	@Override
 	public Equipamento persistir(Equipamento equipamento) {
-		log.info("Persistindo cliente: {}", equipamento);
+		log.info("Persistindo equipamento: {}", equipamento);
 		return this.equipamentoRepository.save(equipamento);
+	}
+
+	@Override
+	public void remover(Long id) {
+		log.info("Removendo equipamento id: ", id);
+		this.equipamentoRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Equipamento> listar() {
+		log.info("Listando equipamentos:");
+		return this.equipamentoRepository.findAll();
 	}
 
 }

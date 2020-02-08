@@ -99,12 +99,19 @@ public class ClienteController {
 	 * @return
 	 */
 	@GetMapping()
-	public ResponseEntity<List<ClienteDto>> listar(){
+	public ResponseEntity<Response<List<ClienteDto>>> listar(){
 		
 		log.info("Listando clientes");
+		Response<List<ClienteDto>> response = new Response<List<ClienteDto>>();
 		List<Cliente> listCliente = this.clienteService.listarCliente();
+		if(listCliente == null) {
+			log.info("Erro ao listar  clientes");
+			response.getErros().add("Erro ao carregar lista de clientes, por favor contate o suporte");
+			return ResponseEntity.badRequest().body(response);
+		}
 		List<ClienteDto> listDto = listCliente.stream().map(obj -> new ClienteDto(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
+		response.setData(listDto);
+		return ResponseEntity.ok().body(response);
 	}
 	
 	
@@ -122,6 +129,7 @@ public class ClienteController {
 			@Valid @RequestBody ClienteDto clienteDto, BindingResult result) throws ParseException{
 		log.info("Adicionando clinete: {}", clienteDto.toString());
 		Response<ClienteDto> response = new Response<ClienteDto>();
+		
 		validarCliente(clienteDto, result);
 		Cliente cliente = this.converterDtoParaCliente(clienteDto, result);
 		
