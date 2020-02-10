@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +43,7 @@ import com.cardoso.controlemanutencao.api.services.OrdemServicoService;
 public class OrdemServicoController {
 	
 	private static final Logger log = LoggerFactory.getLogger( OrdemServicoController.class);
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@Autowired
 	private OrdemServicoService ordemServicoService;
@@ -146,6 +147,7 @@ public class OrdemServicoController {
 		response.setData(listaDto);
 		return ResponseEntity.ok().body(response);
 	}
+	
 	/**
 	 * Listar ordem de servico
 	 * 
@@ -166,6 +168,16 @@ public class OrdemServicoController {
 		return ResponseEntity.ok(response);
 	}
 	
+	/**
+	 * Atualizar Ordem Sevico
+	 * 
+	 * @param id
+	 * @param ordemServicoDto
+	 * @param result
+	 * @return
+	 * @throws ParseException
+	 */
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<Response<OrdemServicoDto>> atualizar(@PathVariable("id") Long id,
 			@Valid @RequestBody OrdemServicoDto ordemServicoDto, BindingResult result) throws ParseException{
 		log.info("Atualizando ordem de serviço id: {}", id);
@@ -179,7 +191,17 @@ public class OrdemServicoController {
 		}
 		
 		ordemServicoDto.setId(id);
-	//	OrdemServico ordem = this.converterAtualizarDtoParaOrdemServico(ordemDto, result);
+		OrdemServico os = this.converterAtualizarDtoParaOrdemServico(ordemServicoDto, result);
+		
+		if(result.hasErrors()) {
+			
+			log.info("Erro atualizando ordem de servico: {}", result.getAllErrors());
+			response.getErros().add("Erro ao atualizar ordem servico:  " + id);
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		os = this.ordemServicoService.persistir(os);
+		response.setData(this.converterOrdeParaDto(os));
 		
 		return ResponseEntity.ok(response);
 	}
@@ -199,36 +221,38 @@ public class OrdemServicoController {
 		ordemAtt.setNotaConclusao(ordemBd.get().getNotaConclusao());
 		ordemAtt.setOrdemStatus(ordemBd.get().getOrdemStatus());
 		
-		if(ordemDto.getConclusaoServico() !=null && !this.dateFormat.parse(ordemDto.getConclusaoServico()).equals(ordemAtt.getConclusaoServico())) {
+		if(ordemDto.getConclusaoServico() !=null ) {
 			ordemAtt.setConclusaoServico(this.dateFormat.parse(ordemDto.getConclusaoServico()));
 		}
 		
-		if(ordemDto.getInicioServico() !=null && !this.dateFormat.parse(ordemDto.getInicioServico()).equals(ordemAtt.getInicioServico())) {
-			ordemAtt.setInicioServico(this.dateFormat.parse(ordemDto.getInicioServico()));
+		if(ordemDto.getInicioServico() !=null) {
+			ordemAtt.setInicioServico(this.dateFormat.parse(ordemDto.getInicioServico().toString()));
 		}
-		/*
-		if (EnumUtils.isValidEnum(StatusEnum.class, ordemDto.getOrdemStatus())) {
-			ordemAtt.setOrdemStatus(StatusEnum.valueOf(ordemDto.getOrdemStatus()));
-		} else {
-			result.addError(new ObjectError("status", "Status inválido."));
+		
+		if(ordemDto.getOrdemStatus() != null) {
+			if (EnumUtils.isValidEnum(StatusEnum.class, ordemDto.getOrdemStatus())) {
+				ordemAtt.setOrdemStatus(StatusEnum.valueOf(ordemDto.getOrdemStatus()));
+			} else {
+				result.addError(new ObjectError("status", "Status inválido."));
+			}
 		}
-		ordemAtt.setDataCriacao(this.dateFormat.parse(ordemDto.getDataCriacao()));
+			//	ordemAtt.setDataCriacao(this.dateFormat.parse(ordemDto.getDataCriacao()));
 		
 		if(ordemDto.getNotaConclusao() !=null) {
 			
 			ordemAtt.setNotaConclusao(ordemDto.getNotaConclusao());
 		}
 		
-		Optional<Equipamento> equi = this.equipamentoService.buscarEquipamentoPorId(ordemDto.getEquipamentoId());
-		ordemAtt.setEquipamento(equi.get());
-		
-		Optional<Funcionario> func = this.funcionarioService.buscarFuncionarioPorId(ordemDto.getFuncionarioId());
-		ordemAtt.setFuncionario(func.get());
-		*/
-		
-		if(!ordemAtt.getConclusaoServico().equals(ordemBd.get().getConclusaoServico())) {
-			
+		if(ordemDto.getEquipamentoId() != null ) {
+			Optional<Equipamento> equi = this.equipamentoService.buscarEquipamentoPorId(ordemDto.getEquipamentoId());
+			ordemAtt.setEquipamento(equi.get());
 		}
+		
+		if(ordemDto.getFuncionarioId() != null ) {
+			Optional<Funcionario> func = this.funcionarioService.buscarFuncionarioPorId(ordemDto.getFuncionarioId());
+			ordemAtt.setFuncionario(func.get());
+		}
+		
 		
 		return ordemAtt;
 	}
