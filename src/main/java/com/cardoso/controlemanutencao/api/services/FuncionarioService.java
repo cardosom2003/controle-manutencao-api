@@ -17,6 +17,14 @@ public interface FuncionarioService {
 	Optional<Funcionario> buscarFuncionarioPorNome(String nome);
 	
 	/**
+	 * Retorna um funcionario passando o email
+	 * 
+	 * @param email
+	 * @return
+	 */
+	Optional<Funcionario> buscarPorEmail(String email);
+
+	/**
 	 * Retorna um  Funcionario passando o id
 	 * 
 	 * @param id

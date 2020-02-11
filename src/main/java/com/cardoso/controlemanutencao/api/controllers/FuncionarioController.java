@@ -174,6 +174,8 @@ public class FuncionarioController {
 		
 		funcionario.setNome(funcionarioDto.getNome());
 		
+		funcionario.setEmail(funcionarioDto.getEmail());
+		
 		if (EnumUtils.isValidEnum(PerfilEnum.class, funcionarioDto.getPerfil())) {
 			funcionario.setPerfil(PerfilEnum.valueOf(funcionarioDto.getPerfil()));
 		} else {
@@ -195,6 +197,7 @@ public class FuncionarioController {
 		FuncionarioDto funcDto = new FuncionarioDto();
 		funcDto.setId(func.getId());
 		funcDto.setNome(func.getNome());
+		funcDto.setEmail(func.getEmail());
 		funcDto.setPerfil(func.getPerfil().toString());
 		
 		return funcDto;
@@ -214,12 +217,17 @@ public class FuncionarioController {
 		Funcionario funAtualizar = new Funcionario();
 		funAtualizar.setId(funBD.get().getId());
 		funAtualizar.setNome(funBD.get().getNome());
+		funAtualizar.setEmail(funBD.get().getEmail());
 		funAtualizar.setSenha(funBD.get().getSenha());
 		funAtualizar.setPerfil(funBD.get().getPerfil());
 		
 		if(!funBD.get().getNome().equals(funcionarioDto.getNome())){
 			
 			funAtualizar.setNome(funcionarioDto.getNome());
+		}
+		
+		if(funcionarioDto.getEmail().equals(funBD.get().getEmail())) {
+			funAtualizar.setEmail(funcionarioDto.getEmail());
 		}
 		
 		if((funcionarioDto.getSenha() != null && funcionarioDto.getSenha() != "")

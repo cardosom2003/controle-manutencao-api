@@ -29,6 +29,7 @@ public class Funcionario implements Serializable {
 	private Long id;
 	private String nome;
 	private String senha;
+	private String  email;
 	private PerfilEnum perfil;
 	private List<OrdemServico> ordemservico;
 	
@@ -74,6 +75,15 @@ public class Funcionario implements Serializable {
 		this.perfil = perfil;
 	}
 	
+	@Column(name = "email", nullable = false)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public List<OrdemServico> getOrdemservico() {
 		return ordemservico;
@@ -85,8 +95,11 @@ public class Funcionario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Funcionario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", perfil=" + perfil + "]";
+		return "Funcionario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", email=" + email + ", perfil="
+				+ perfil + "]";
 	}
+
+	
 	
 	
 

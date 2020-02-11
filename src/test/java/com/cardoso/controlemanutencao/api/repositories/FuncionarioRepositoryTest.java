@@ -24,6 +24,7 @@ public class FuncionarioRepositoryTest {
 	private FuncionarioRepository funcionarioRepository;
 	
 	private static final String NOME = "Nome Funcionario";
+	private static final String EMAIL = "nome@empresa.com.br";
 	private static final String SENHA = "123456";
 	
 	@Before
@@ -31,6 +32,7 @@ public class FuncionarioRepositoryTest {
 		
 		Funcionario funcionario = new Funcionario();
 		funcionario.setNome(NOME);
+		funcionario.setEmail(EMAIL);
 		funcionario.setPerfil(PerfilEnum.ROLE_ADMIN);
 		funcionario.setSenha(PasswordUtils.gerarBCrypt(SENHA));
 		this.funcionarioRepository.save(funcionario);
@@ -48,6 +50,11 @@ public class FuncionarioRepositoryTest {
 		Funcionario funcionario = this.funcionarioRepository.findByNome(NOME);
 		
 		assertEquals(NOME, funcionario.getNome());
+	}
+	
+	public void testBuscarFuncionarioPorEmail() {
+		Funcionario funcionario = this.funcionarioRepository.findByEmail(EMAIL);
+		assertEquals(EMAIL, funcionario.getEmail());
 	}
 
 }

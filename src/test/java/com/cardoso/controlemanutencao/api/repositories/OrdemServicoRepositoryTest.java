@@ -88,6 +88,7 @@ public class OrdemServicoRepositoryTest {
 		Funcionario funcionario = new Funcionario();
 		funcionario.setNome("Jão");
 		funcionario.setSenha(PasswordUtils.gerarBCrypt("123456"));
+		funcionario.setEmail("joão@empresa.com.br");
 		funcionario.setPerfil(PerfilEnum.ROLE_TECNICO);
 		this.funcionarioRepository.save(funcionario);
 				

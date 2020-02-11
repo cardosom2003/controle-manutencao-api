@@ -10,6 +10,7 @@ public class FuncionarioDto {
 	
 	private Long id;
 	private String nome;
+	private String email;
 	private String senha;
 	private String perfil;
 	
@@ -23,6 +24,7 @@ public class FuncionarioDto {
 		
 		id = obj.getId();
 		nome = obj.getNome();
+		email = obj.getEmail();
 		senha = obj.getSenha();
 		perfil = obj.getPerfil().toString();
 	}
@@ -48,7 +50,18 @@ public class FuncionarioDto {
 		this.nome = nome;
 	}
 
-	
+	@NotEmpty(message = "E-mail não pode ser vazio.")
+	@Length(min = 3, max = 150, message = "E-mail deve  conter etre 3 e 150 caracteres")
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
 	public String getSenha() {
 		return senha;
 	}
@@ -71,8 +84,11 @@ public class FuncionarioDto {
 
 	@Override
 	public String toString() {
-		return "FuncionarioDto [id=" + id + ", nome=" + nome + ", senha=" + senha + ", perfil=" + perfil + "]";
+		return "FuncionarioDto [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", perfil="
+				+ perfil + "]";
 	}
+
+
 	
 	
 	

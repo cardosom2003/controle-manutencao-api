@@ -50,8 +50,13 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	@Override
 	public List<Funcionario> listar() {
 		log.info("Listando funcionarios.");
-		this.funcionarioRepository.findAll();
-		return null;
+		return this.funcionarioRepository.findAll();
+	}
+
+	@Override
+	public Optional<Funcionario> buscarPorEmail(String email) {
+		log.info("Buscando funcionario pelo e-mail: {}", email);
+		return Optional.ofNullable(funcionarioRepository.findByEmail(email));
 	}
 
 }
