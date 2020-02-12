@@ -1,4 +1,4 @@
-package com.cardoso.controlemanutencao.api.entities;
+	package com.cardoso.controlemanutencao.api.entities;
 
 import java.io.Serializable;
 import java.util.List;
